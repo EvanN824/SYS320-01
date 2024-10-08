@@ -2,11 +2,12 @@
 
 for($i=0; $i -lt $FullTable.length; $i++){
 $Days = @()
-if($FullTable[$i].Days -ilike "M"){$Days += "Monday"}
-if($FullTable[$i].Days -ilike "*T[WF]*"){$Days += "Tuesday"}
-if($FullTable[$i].Days -ilike "W"){$Days += "Wednesday"}
-if($FullTable[$i].Days -ilike "TH"){$Days += "Thursday"}
-if($FullTable[$i].Days -ilike "F"){$Days += "Friday"}
+if($FullTable[$i].Days -ilike "M*"){$Days += "Monday"}
+if($FullTable[$i].Days -ilike "*T[TWF]*"){$Days += "Tuesday"}
+if($FullTable[$i].Days -like "T"){$Days += "Tuesday"}
+if($FullTable[$i].Days -ilike "*W*"){$Days += "Wednesday"}
+if($FullTable[$i].Days -ilike "*TH*"){$Days += "Thursday"}
+if($FullTable[$i].Days -ilike "*F*"){$Days += "Friday"}
 
 $FullTable[$i].Days = $Days
 
