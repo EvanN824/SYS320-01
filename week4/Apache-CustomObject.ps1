@@ -1,5 +1,25 @@
-﻿function ApacheLogs1(){
-$logsNotformatted = Get-Content C:\xampp\apache\logs\access.log
+﻿function gatherIOC(){
+
+$page = Invoke-WebRequest -TimeoutSec 10 http://10.0.17.5/IOC.html
+
+$trs = $page.ParsedHtml.body.getElementsByTagName("tr")
+
+$FullTable = @()
+for($i=1; $i -lt $trs.length; $i++)
+{
+    $tds = $trs[$i].getElementsByTagName("td")
+
+    $FullTable += [pscustomobject]@{
+        "Pattern" = $tds[0].innerText;
+        "Explanation" = $tds[1].innerText;
+    }
+}
+
+return $FullTable
+}
+
+function GetLogs(){
+$logsNotformatted = Get-Content C:\xampp\apache\logs\access2.log
 $tableRecords = @()
 
 for($i = 0; $i -lt $logsNotformatted.Count; $i++){
@@ -22,3 +42,30 @@ $tableRecords += [pscustomobject]@{
 return $tableRecords | Where-Object {$_.IP -like "10.*"}
 
 }
+
+function FinalizeLogs($log, $ioc){
+
+$export = @()
+
+for($i = 0; $i -lt $log.length; $i++){
+for($j = 0; $j -lt $ioc.length; $j++){
+    if ($log[$i].Page -match $ioc[$j].Pattern)
+    {
+        if ($export.Contains($log[$i])){
+
+        }
+        else
+        {
+            $export += $log[$i]
+        }
+    }
+}
+}
+Write-Host $log[0].Page | Out-String
+return $export
+}
+
+$logs = GetLogs
+$iocs = gatherIOC
+$toPrint = FinalizeLogs $logs $iocs
+$toPrint

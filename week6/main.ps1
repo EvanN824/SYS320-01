@@ -47,7 +47,6 @@ while($operation){
     elseif($choice -eq 3){ 
 
         $name = Read-Host -Prompt "Please enter the username for the new user"
-        $password = Read-Host -AsSecureString -Prompt "Please enter the password for the new user"
 
         $chkUser = checkUser $name
         if($chkUser -ne $true){
@@ -69,7 +68,7 @@ while($operation){
 
         }
         else{
-        Write-Hose "User $name already exists." | Out-String 
+        Write-Host "User $name already exists." | Out-String 
         }
     }
 

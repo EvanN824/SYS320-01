@@ -55,7 +55,7 @@ while($operation){
         if($chrome)
         {} else
         {
-        Start-Process "title" "C:\Program Files\Google\Chrome\Application\chrome.exe" --start-fullscreen "https://www.champlain.edu/"
+        Start-Process "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://www.champlain.edu/"
         }
     }
 

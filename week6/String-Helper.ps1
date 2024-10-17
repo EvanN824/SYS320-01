@@ -36,21 +36,21 @@ if($passwd.Length -lt 6){
     Write-Host "Failed Length Test" | Out-String
     return $false
     }
-elseif($passwd -notcontains "[0-9]")
+elseif($passwd -inotlike "*[0-9]*")
 {
     Write-Host "Failed Digit Test" | Out-String
     return $false
     }
-elseif($passwd -notcontains "[^a-zA-Z0-9]"){
+elseif($passwd -inotlike "*['!'#'@'$'%'^'&'*]*"){
     Write-Host "Failed Special C Test" | Out-String
     return $false
     }
-    elseif($passwd -notcontains "[a-z]")
+    elseif($passwd -inotlike "*[a-zA-Z]*")
 {
     Write-Host "Failed Letter Test" | Out-String
     return $false
     }
     else{
-    Write-Hose "Here"
+    Write-Host "Here"
     return $true}
 }

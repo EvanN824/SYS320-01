@@ -91,6 +91,7 @@ function getAtRiskUsers($timeBack){
 
     }
 
+    <#
     $failedLoginsTable | Group-Object -Property user | Sort-Object -Property Count -Descending
 
     $atRiskAccounts = @()
@@ -100,7 +101,10 @@ function getAtRiskUsers($timeBack){
         {
             $atRiskAccounts += $failedLoginsTable[$i]
         }
-    }
+    }#>
 
-    return $atRiskAccounts
+    $res = $failedLoginsTable | Group-Object -Property user
+    $res | Where-Object {$_.Count -ge 10} | Select-Object Name, Count
+
+    return $res
 }
